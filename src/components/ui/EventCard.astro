@@ -53,7 +53,10 @@ const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
     <p class="text-text-muted text-sm mb-4">
       <span class="font-medium text-text-dark">Location:</span> {event.location}
     </p>
-    <p class="text-text-muted text-sm leading-relaxed line-clamp-2 m-0">{event.description}</p>
+    <p class="text-text-muted text-sm leading-relaxed line-clamp-2 mb-4">{event.description}</p>
+    <span class="inline-block font-sans text-xs font-semibold tracking-wider uppercase text-primary border-b border-primary pb-0.5">
+      View Event →
+    </span>
   </div>
 </article>
 
