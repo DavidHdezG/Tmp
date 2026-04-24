@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScrollReveal from '../components/gsap/ScrollReveal.astro';
+import EventCard from '../components/ui/EventCard.astro';
+import { getPublishedEvents } from '../lib/directus';
+
+const events = await getPublishedEvents();
+const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
+---
+
+<BaseLayout
+  title="Events & Performances"
+  description="Explore ACLA's calendar of performances, exhibitions, workshops, and community events celebrating Latino arts in Amarillo and the Texas Panhandle."
+>
+
+  <section class="min-h-[40vh] bg-[#1a1a1a] flex items-end relative overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="/background.jpg" alt="" class="w-full h-full object-cover opacity-20" aria-hidden="true" />
+    </div>
+    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+    <div class="container relative z-10 pb-16 pt-28">
+      <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Calendar</p>
+      <h1 class="font-serif text-white">Events & Performances</h1>
+      <p class="font-sans text-white/70 text-xl mt-4 max-w-xl">Celebrating Latino Arts in Amarillo</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {events.length > 0 ? (
+        <>
+          <p class="text-text-muted max-w-2xl mb-12">
+            Explore our diverse calendar of performances, exhibitions, workshops, and community events celebrating Latino arts and culture in the Texas Panhandle.
+          </p>
+          <div class="grid md:grid-cols-2 gap-8">
+            {events.map(event => <EventCard event={event} />)}
+          </div>
+        </>
+      ) : (
+        <div class="text-center py-24">
+          <p class="font-serif text-2xl text-text-muted mb-4">No upcoming events at the moment.</p>
+          <p class="text-text-muted">Check back soon — we're always planning something new.</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <ScrollReveal selector=".event-card" from="bottom" stagger={0.1} />
+
+  <section class="section section--dark text-center">
+    <div class="container">
+      <h2 class="font-serif text-white mb-4">Want to Perform or Exhibit?</h2>
+      <p class="text-white/70 max-w-xl mx-auto mb-8">
+        Are you a Latino artist interested in performing or exhibiting at ACLA events? We're always looking for talented artists to showcase.
+      </p>
+      <a href={registerUrl} class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+        Register as an Artist
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
