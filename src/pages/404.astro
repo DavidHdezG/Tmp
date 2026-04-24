@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const NAV_LINKS = [
+  { href: '/',             label: 'Home' },
+  { href: '/events',       label: 'Events' },
+  { href: '/artists',      label: 'Artists' },
+  { href: '/scholarships', label: 'Scholarships' },
+  { href: '/donate',       label: 'Donate' },
+];
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you were looking for doesn't exist. Explore ACLA's events, artists, and scholarships."
+>
+  <section class="min-h-[80vh] flex items-center">
+    <div class="container">
+      <div class="max-w-2xl">
+
+        <!-- Orange accent bar (matches hero style) -->
+        <div class="w-12 h-1 bg-primary mb-10"></div>
+
+        <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">
+          Error 404
+        </p>
+
+        <h1 class="font-serif text-6xl md:text-8xl text-text-dark leading-none mb-6">
+          Page Not<br/>Found
+        </h1>
+
+        <p class="text-text-muted text-lg leading-relaxed max-w-md mb-10">
+          The page you were looking for doesn't exist or may have been moved.
+          Explore our site to find what you need.
+        </p>
+
+        <!-- Primary action -->
+        <div class="flex flex-wrap gap-4 mb-16">
+          <a href="/" class="btn btn--primary">Back to Home</a>
+          <a href="/events" class="btn btn--outline">View Events</a>
+        </div>
+
+        <!-- Quick nav -->
+        <div class="border-t border-border pt-8">
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-text-muted mb-4">
+            Explore
+          </p>
+          <nav class="flex flex-wrap gap-6" aria-label="404 navigation">
+            {NAV_LINKS.map(link => (
+              <a
+                href={link.href}
+                class="font-sans text-sm font-semibold text-text-dark hover:text-primary no-underline transition-colors duration-150"
+              >
+                {link.label} →
+              </a>
+            ))}
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
