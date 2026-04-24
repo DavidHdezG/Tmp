@@ -35,27 +35,11 @@ const NAV_LINKS = [
         </p>
 
         <!-- Primary action -->
-        <div class="flex flex-wrap gap-4 mb-16">
+        <div class="flex flex-wrap gap-4 mb-16 pb-8">
           <a href="/" class="btn btn--primary">Back to Home</a>
           <a href="/events" class="btn btn--outline">View Events</a>
         </div>
 
-        <!-- Quick nav -->
-        <div class="border-t border-border pt-8">
-          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-text-muted mb-4">
-            Explore
-          </p>
-          <nav class="flex flex-wrap gap-6" aria-label="404 navigation">
-            {NAV_LINKS.map(link => (
-              <a
-                href={link.href}
-                class="font-sans text-sm font-semibold text-text-dark hover:text-primary no-underline transition-colors duration-150"
-              >
-                {link.label} →
-              </a>
-            ))}
-          </nav>
-        </div>
 
       </div>
     </div>
