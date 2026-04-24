@@ -4,40 +4,64 @@ interface Props {
   from?: 'bottom' | 'left' | 'right';
   stagger?: number;
 }
-// Note: ScrollTrigger.batch() is used here for performance (gsap-scrolltrigger + gsap-performance skills)
-// Batch collects all matching elements entering the viewport and animates them together with stagger
 const { selector, from = 'bottom', stagger = 0.08 } = Astro.props;
 ---
 
-<script define:vars={{ selector, from, stagger }}>
+<!--
+  Renders a hidden marker element with data attributes.
+  The module script below (deduplicated by Astro) reads ALL markers on the
+  page and sets up one ScrollTrigger.batch() per instance — avoiding the
+  define:vars + import incompatibility.
+-->
+<div
+  data-scroll-reveal
+  data-selector={selector}
+  data-from={from}
+  data-stagger={String(stagger)}
+  style="display:none"
+  aria-hidden="true"
+></div>
+
+<script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  // ScrollTrigger already registered in PageTransition.astro — no need to re-register
 
-  const fromVars = {
-    bottom: { y: 50, autoAlpha: 0 },  // gsap-core: autoAlpha not opacity
+  // registerPlugin is idempotent — safe even if PageTransition also calls it
+  gsap.registerPlugin(ScrollTrigger);
+
+  const fromVarsMap: Record<string, gsap.TweenVars> = {
+    bottom: { y: 50, autoAlpha: 0 },
     left:   { x: -50, autoAlpha: 0 },
     right:  { x: 50, autoAlpha: 0 },
   };
 
-  // gsap-core skill: matchMedia for prefers-reduced-motion
-  const mm = gsap.matchMedia();
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
-    // gsap-scrolltrigger skill: ScrollTrigger.batch() is more efficient than
-    // individual ScrollTriggers for lists of cards/items
-    ScrollTrigger.batch(selector, {
-      onEnter: (elements) => {
-        gsap.fromTo(elements, fromVars[from], {
-          y: 0,
-          x: 0,
-          autoAlpha: 1,
-          duration: 0.7,
-          ease: 'power2.out',
-          stagger,  // gsap-performance: stagger on batch, not separate tweens
-        });
-      },
-      start: 'top 88%',
-      once: true, // gsap-scrolltrigger: kill after first trigger, no ongoing overhead
+  // This script is deduplicated by Astro — it runs once per page load,
+  // handling all [data-scroll-reveal] markers on the page.
+  document.querySelectorAll<HTMLElement>('[data-scroll-reveal]').forEach((marker) => {
+    const selector = marker.dataset.selector;
+    const from = marker.dataset.from || 'bottom';
+    const stagger = parseFloat(marker.dataset.stagger || '0.08');
+
+    if (!selector) return;
+
+    const fromVars = fromVarsMap[from] ?? fromVarsMap.bottom;
+
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      ScrollTrigger.batch(selector, {
+        onEnter: (elements) => {
+          gsap.fromTo(elements, fromVars, {
+            y: 0,
+            x: 0,
+            autoAlpha: 1,
+            duration: 0.7,
+            ease: 'power2.out',
+            stagger,
+          });
+        },
+        start: 'top 88%',
+        once: true,
+      });
     });
   });
 </script>

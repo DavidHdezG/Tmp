@@ -2,24 +2,19 @@
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-  // Register once here — all other GSAP components rely on this (gsap-scrolltrigger skill)
   gsap.registerPlugin(ScrollTrigger);
 
-  // gsap-core skill: use matchMedia for prefers-reduced-motion
+  /*
+    CSS en BaseLayout ya ocultó #main-content con opacity:0 antes de pintar.
+    Aquí solo necesitamos animarlo a visible — sin fromTo, sin lógica de estado inicial.
+    prefers-reduced-motion y noscript están cubiertos por el CSS del layout.
+  */
   const mm = gsap.matchMedia();
-  mm.add(
-    {
-      reduceMotion: '(prefers-reduced-motion: reduce)',
-      noReduceMotion: '(prefers-reduced-motion: no-preference)',
-    },
-    (context) => {
-      const { reduceMotion } = context.conditions || {};
-      // gsap-core skill: autoAlpha instead of opacity (hides element from pointer events at 0)
-      gsap.fromTo(
-        '#main-content',
-        { autoAlpha: reduceMotion ? 1 : 0 },
-        { autoAlpha: 1, duration: reduceMotion ? 0 : 0.4, ease: 'power1.out' }
-      );
-    }
-  );
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    gsap.to('#main-content', {
+      opacity: 1,
+      duration: 0.45,
+      ease: 'power1.out',
+    });
+  });
 </script>
