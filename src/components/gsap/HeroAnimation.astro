@@ -1,0 +1,53 @@
+---
+interface Props {
+  titleSelector?: string;
+  subtitleSelector?: string;
+  ctaSelector?: string;
+}
+const {
+  titleSelector = '.hero-title',
+  subtitleSelector = '.hero-subtitle',
+  ctaSelector = '.hero-cta',
+} = Astro.props;
+---
+
+<script define:vars={{ titleSelector, subtitleSelector, ctaSelector }}>
+  import gsap from 'gsap';
+
+  // gsap-core skill: gsap.matchMedia() for prefers-reduced-motion
+  const mm = gsap.matchMedia();
+  mm.add(
+    {
+      reduceMotion: '(prefers-reduced-motion: reduce)',
+      noReduceMotion: '(prefers-reduced-motion: no-preference)',
+    },
+    (context) => {
+      const { reduceMotion } = context.conditions;
+
+      if (reduceMotion) {
+        // Skip animation entirely — just ensure elements are visible
+        gsap.set([titleSelector, subtitleSelector, ctaSelector], { autoAlpha: 1, y: 0 });
+        return;
+      }
+
+      // gsap-timeline skill: use timeline for sequencing, not chained delays
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      // gsap-core skill: autoAlpha instead of opacity for proper visibility handling
+      tl.fromTo(titleSelector,
+          { y: 80, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 1, delay: 0.1 }
+        )
+        .fromTo(subtitleSelector,
+          { y: 30, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.12 },
+          '-=0.5'
+        )
+        .fromTo(ctaSelector,
+          { y: 20, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.08 },
+          '-=0.4'
+        );
+    }
+  );
+</script>
