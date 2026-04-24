@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScrollReveal from '../components/gsap/ScrollReveal.astro';
+import DonationEmbed from '../components/ui/DonationEmbed.astro';
+
+const IMPACT = [
+  { title: 'Artist Scholarships', description: 'Help emerging and established artists access funding for education, equipment, and professional development.' },
+  { title: 'Cultural Programming', description: 'Support exhibitions, performances, festivals, and events that celebrate Latino arts and culture.' },
+  { title: 'Community Engagement', description: 'Enable workshops, educational programs, and outreach that connect communities with art.' },
+];
+
+const TIERS = [
+  { amount: '$25', label: 'Supports one scholarship application review' },
+  { amount: '$50', label: 'Funds artist promotion and materials' },
+  { amount: '$100', label: 'Sponsors one artist for a performance' },
+  { amount: '$250', label: 'Supports a full scholarship for an artist' },
+  { amount: '$500', label: 'Funds an entire community event' },
+];
+---
+
+<BaseLayout
+  title="Donate"
+  description="Support ACLA and help empower Latino artists in the Texas Panhandle. Your donation is tax-deductible — ACLA is a 501(c)(3) nonprofit."
+>
+
+  <section class="min-h-[40vh] bg-primary flex items-end relative overflow-hidden">
+    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-white/30"></div>
+    <div class="container relative z-10 pb-16 pt-28">
+      <p class="font-sans text-xs font-semibold tracking-widest uppercase text-white/70 mb-4">Give Back</p>
+      <h1 class="font-serif text-white">Support ACLA</h1>
+      <p class="font-sans text-white/80 text-xl mt-4 max-w-xl">Help Us Empower Latino Artists and Culture</p>
+    </div>
+  </section>
+
+  <!-- IMPACT -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center mb-12">
+        <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Impact</p>
+        <h2 class="font-serif">How Your Donation Helps</h2>
+        <p class="text-text-muted max-w-xl mx-auto">Your donation directly supports artist scholarships, cultural programming, community events, and educational initiatives.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        {IMPACT.map(i => (
+          <div class="impact-item border-l-4 border-primary pl-6 py-2">
+            <h3 class="font-serif text-lg mb-3">{i.title}</h3>
+            <p class="text-text-muted text-sm leading-relaxed m-0">{i.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ScrollReveal selector=".impact-item" from="left" stagger={0.1} />
+
+  <!-- TIERS -->
+  <section class="section bg-[#f5f0ea]">
+    <div class="container">
+      <div class="text-center mb-12">
+        <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Choose Your Level</p>
+        <h2 class="font-serif">Donation Options</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {TIERS.map(t => (
+          <div class="tier-item bg-white border border-border p-6 text-center hover:border-primary transition-colors">
+            <p class="font-serif text-3xl font-bold text-primary mb-2 m-0">{t.amount}</p>
+            <p class="text-text-muted text-xs leading-relaxed m-0">{t.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ScrollReveal selector=".tier-item" from="bottom" stagger={0.07} />
+
+  <!-- EMBED -->
+  <section class="section">
+    <div class="container max-w-3xl mx-auto">
+      <div class="text-center mb-10">
+        <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Secure Giving</p>
+        <h2 class="font-serif">Make Your Donation</h2>
+        <p class="text-text-muted">All donations are tax-deductible. ACLA is a registered 501(c)(3) nonprofit.</p>
+      </div>
+      <DonationEmbed />
+
+      <div class="mt-10 border-l-4 border-primary pl-6">
+        <h4 class="font-serif text-lg mb-4">Other Ways to Give</h4>
+        <ul class="space-y-2 list-none p-0">
+          <li class="text-text-muted text-sm"><span class="font-semibold text-text-dark">Check:</span> Mail checks to ACLA, Amarillo, TX</li>
+          <li class="text-text-muted text-sm"><span class="font-semibold text-text-dark">Bank Transfer:</span> Contact us for bank details</li>
+          <li class="text-text-muted text-sm"><span class="font-semibold text-text-dark">In-Kind:</span> Donate art supplies, equipment, or services</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark text-center">
+    <div class="container">
+      <h2 class="font-serif text-white mb-4">Your Donation is Tax-Deductible</h2>
+      <p class="text-white/70 max-w-xl mx-auto m-0">
+        ACLA is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the extent allowed by law.
+      </p>
+      <p class="font-sans font-semibold text-primary mt-6 text-xs tracking-widest uppercase m-0">
+        Nonprofit · Amarillo, Texas
+      </p>
+    </div>
+  </section>
+
+</BaseLayout>
