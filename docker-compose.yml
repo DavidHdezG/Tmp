@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   astro:
     build: .
@@ -7,9 +5,7 @@ services:
       - "4321:4321"
     env_file: .env
     environment:
-      # Internal Docker network URL for SSR → Directus API calls
       DIRECTUS_URL: http://directus:8055
-      # Public URL for browser asset loading — use your real domain in production
       PUBLIC_DIRECTUS_URL: ${PUBLIC_DIRECTUS_URL:-http://localhost:8055}
     depends_on:
       directus:
@@ -39,10 +35,14 @@ services:
     volumes:
       - directus_uploads:/directus/uploads
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8055/server/health || exit 1"]
+      # node is always available in the Directus image; avoids wget/curl availability issues
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8055/server/health').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))\""]
       interval: 15s
       timeout: 10s
-      retries: 6
+      retries: 10
+      # Grace period for first boot — Directus runs DB migrations on initial start
+      # which can take 60-120s before the HTTP server is ready
+      start_period: 120s
     restart: unless-stopped
 
   postgres:
