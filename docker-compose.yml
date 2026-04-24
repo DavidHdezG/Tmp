@@ -3,7 +3,9 @@ services:
     build: .
     ports:
       - "4321:4321"
-    env_file: .env
+    env_file:
+      - path: .env
+        required: false
     environment:
       DIRECTUS_URL: http://directus:8055
       PUBLIC_DIRECTUS_URL: ${PUBLIC_DIRECTUS_URL:-http://localhost:8055}
@@ -11,12 +13,16 @@ services:
       directus:
         condition: service_healthy
     restart: unless-stopped
+    networks:
+      - acla_network
 
   directus:
     image: directus/directus:11
     ports:
       - "8055:8055"
-    env_file: .env
+    env_file:
+      - path: .env
+        required: false
     environment:
       KEY: ${DIRECTUS_KEY}
       SECRET: ${DIRECTUS_SECRET}
@@ -35,15 +41,14 @@ services:
     volumes:
       - directus_uploads:/directus/uploads
     healthcheck:
-      # node is always available in the Directus image; avoids wget/curl availability issues
-      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8055/server/health').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))\""]
-      interval: 15s
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8055/server/health || exit 1"]
+      interval: 20s
       timeout: 10s
       retries: 10
-      # Grace period for first boot — Directus runs DB migrations on initial start
-      # which can take 60-120s before the HTTP server is ready
       start_period: 120s
     restart: unless-stopped
+    networks:
+      - acla_network
 
   postgres:
     image: postgres:16-alpine
@@ -59,7 +64,13 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    networks:
+      - acla_network
 
 volumes:
   postgres_data:
   directus_uploads:
+
+networks:
+  acla_network:
+    driver: bridge
