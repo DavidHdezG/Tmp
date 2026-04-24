@@ -6,10 +6,37 @@ import { getPublishedEvents } from '../lib/directus';
 
 const events = await getPublishedEvents();
 const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://aclatx.org';
+
+// JSON-LD Event schema — enables Google rich results (event cards in SERP)
+const eventSchemas = events.map(e => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: e.title,
+  description: e.description,
+  startDate: e.date,
+  location: {
+    '@type': 'Place',
+    name: e.location,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Amarillo',
+      addressRegion: 'TX',
+      addressCountry: 'US',
+    },
+  },
+  organizer: {
+    '@type': 'NGO',
+    name: 'Amarillo Council for the Latino Arts',
+    url: siteUrl,
+  },
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+}));
 ---
 
 <BaseLayout
-  title="Events & Performances"
+  title="Latino Arts Events in Amarillo, TX — Performances & Exhibitions"
   description="Explore ACLA's calendar of performances, exhibitions, workshops, and community events celebrating Latino arts in Amarillo and the Texas Panhandle."
 >
 
@@ -58,5 +85,10 @@ const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
       </a>
     </div>
   </section>
+
+  <!-- Event JSON-LD schema — enables rich results (event cards) in Google SERP -->
+  {eventSchemas.map(schema => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
 
 </BaseLayout>
