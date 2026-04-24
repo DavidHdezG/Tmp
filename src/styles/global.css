@@ -2,18 +2,29 @@
 
 @import './typography.css';
 
-:root {
+/*
+  Tailwind v4: @theme replaces tailwind.config.js for custom values.
+  These variables generate utility classes: bg-primary, text-primary,
+  text-text-muted, font-serif, etc.
+*/
+@theme {
   --color-primary: #ff8c3a;
   --color-primary-dark: #e67e2f;
   --color-coral: #ff6b54;
+  --color-cream: #faf7f2;
   --color-bg: #faf7f2;
   --color-dark: #1a1a1a;
+  --color-text-dark: #1a1a1a;
+  --color-text-muted: #6b6b6b;
   --color-muted: #6b6b6b;
   --color-border: #f0ebe5;
 
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Bricolage Grotesque', system-ui, sans-serif;
+}
 
+/* Keep as :root for use in custom CSS via var() */
+:root {
   --transition-fast: 150ms ease-in-out;
   --transition-base: 300ms ease-in-out;
 }

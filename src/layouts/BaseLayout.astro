@@ -1,8 +1,8 @@
 ---
 import '../styles/global.css';
-import Header from '@/components/layout/Header.astro';
-import Footer from '@/components/layout/Footer.astro';
-import PageTransition from '@/components/gsap/PageTransition.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import PageTransition from '../components/gsap/PageTransition.astro';
 
 interface Props {
   title: string;
@@ -12,13 +12,39 @@ interface Props {
 
 const {
   title,
-  description = 'The Amarillo Council for the Latino Arts supports Latino arts and cultural heritage in the Texas Panhandle through scholarships, performances, and community events.',
+  description = 'The Amarillo Council for the Latino Arts (ACLA) supports Latino artists in the Texas Panhandle through scholarships, performances, and cultural events.',
   ogImage = '/Logos/ACLA_Logo_Black.png',
 } = Astro.props;
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://aclatx.org';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
-const fullTitle = `${title} | ACLA — Amarillo Council for the Latino Arts`;
+// Keep title concise: "Page Name | ACLA" — brand suffix is short for character budget
+const fullTitle = `${title} | ACLA`;
+
+const orgSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'NGO',
+  name: 'Amarillo Council for the Latino Arts',
+  alternateName: 'ACLA',
+  url: siteUrl,
+  logo: `${siteUrl}/Logos/ACLA_Logo_Black.png`,
+  description: 'Nonprofit organization supporting Latino arts and cultural heritage in the Texas Panhandle through scholarships, performances, and community events.',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Amarillo',
+    addressRegion: 'TX',
+    addressCountry: 'US',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'general',
+    email: 'info@aclatx.org',
+  },
+  sameAs: [
+    'https://facebook.com/acla',
+    'https://instagram.com/acla',
+  ],
+});
 ---
 
 <!doctype html>
@@ -26,21 +52,54 @@ const fullTitle = `${title} | ACLA — Amarillo Council for the Latino Arts`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/Logos/ACLA_Logo_Black.png" />
 
+    <!-- Preconnect for Google Fonts — reduces render-blocking time -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/Logos/ACLA_Logo_Black.png" />
+    <link rel="apple-touch-icon" href="/Logos/ACLA_Logo_Black.png" />
+
+    <!-- Primary meta -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="ACLA — Amarillo Council for the Latino Arts" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:type" content="website" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <!-- Sitemap reference -->
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <!-- JSON-LD: Organization schema on every page -->
+    <script type="application/ld+json" set:html={orgSchema} />
+
+    <!--
+      Oculta #main-content ANTES de que el browser pinte — elimina el flash blanco.
+      GSAP hace el fade-in. El @media y <noscript> son fallbacks si JS no carga.
+    -->
+    <style>
+      #main-content { opacity: 0; }
+      @media (prefers-reduced-motion: reduce) { #main-content { opacity: 1 !important; } }
+    </style>
+    <noscript><style>#main-content { opacity: 1 !important; }</style></noscript>
   </head>
   <body>
-    <!-- ui-ux-pro-max skill: skip-link for keyboard/screen reader accessibility -->
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:font-sans focus:text-sm"
