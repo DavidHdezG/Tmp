@@ -11,7 +11,7 @@ services:
       PUBLIC_DIRECTUS_URL: ${PUBLIC_DIRECTUS_URL:-http://localhost:8055}
     depends_on:
       directus:
-        condition: service_healthy
+        condition: service_started  # No need to wait for healthy — directus.ts handles errors gracefully
     restart: unless-stopped
     networks:
       - acla_network
