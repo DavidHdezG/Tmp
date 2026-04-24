@@ -1,0 +1,63 @@
+---
+import MobileMenu from './MobileMenu.tsx';
+
+const NAV_LINKS = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/events', label: 'Events' },
+  { href: '/artists', label: 'Artists' },
+  { href: '/scholarships', label: 'Scholarships' },
+  { href: '/donate', label: 'Donate' },
+];
+
+const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
+const currentPath = Astro.url.pathname;
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-cream/95 backdrop-blur-sm border-b border-border">
+  <div class="container">
+    <div class="flex items-center justify-between h-20">
+
+      <a href="/" class="flex items-center gap-3 no-underline shrink-0">
+        <img
+          src="/Logos/ACLA_Logo_Black.png"
+          alt="ACLA — Amarillo Council for the Latino Arts"
+          class="h-10 w-auto"
+          width="80"
+          height="40"
+        />
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-8" aria-label="Main navigation">
+        {NAV_LINKS.map(link => (
+          <a
+            href={link.href}
+            class:list={[
+              'font-sans text-xs font-semibold tracking-widest uppercase no-underline transition-colors duration-150',
+              currentPath === link.href
+                ? 'text-primary border-b-2 border-primary pb-0.5'
+                : 'text-text-muted hover:text-primary',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <a
+        href={registerUrl}
+        class="btn btn--primary hidden lg:inline-block"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Register as Artist
+      </a>
+
+      <div class="relative lg:hidden">
+        <MobileMenu client:load registerUrl={registerUrl} />
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="h-20" aria-hidden="true"></div>
