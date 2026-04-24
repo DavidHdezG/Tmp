@@ -1,0 +1,45 @@
+---
+import type { Event } from '../../lib/types';
+import { getAssetUrl } from '../../lib/directus';
+
+interface Props { event: Event }
+const { event } = Astro.props;
+
+const imageUrl = event.image
+  ? getAssetUrl(
+      typeof event.image === 'string' ? event.image : event.image.id,
+      { width: 600, height: 360, fit: 'cover' }
+    )
+  : '/background.jpg';
+
+const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="event-card bg-white border border-border overflow-hidden group">
+  <div class="overflow-hidden aspect-5/3">
+    <img
+      src={imageUrl}
+      alt={event.title}
+      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      loading="lazy"
+    />
+  </div>
+  <div class="p-6">
+    <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-2">
+      {formattedDate}
+    </p>
+    <h3 class="font-serif text-xl mb-2 text-text-dark leading-tight">{event.title}</h3>
+    <p class="text-text-muted text-sm mb-1">
+      <span class="font-medium text-text-dark">Time:</span> {event.time}
+    </p>
+    <p class="text-text-muted text-sm mb-4">
+      <span class="font-medium text-text-dark">Location:</span> {event.location}
+    </p>
+    <p class="text-text-muted text-sm leading-relaxed line-clamp-2 m-0">{event.description}</p>
+  </div>
+</article>

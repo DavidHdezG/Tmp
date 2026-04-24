@@ -1,0 +1,40 @@
+---
+import type { Artist } from '../../lib/types';
+import { getAssetUrl } from '../../lib/directus';
+
+interface Props { artist: Artist }
+const { artist } = Astro.props;
+
+const photoUrl = artist.photo
+  ? getAssetUrl(
+      typeof artist.photo === 'string' ? artist.photo : artist.photo.id,
+      { width: 500, height: 500, fit: 'cover' }
+    )
+  : 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop';
+---
+
+<article class="artist-card bg-white border border-border overflow-hidden group">
+  <div class="overflow-hidden aspect-square">
+    <img
+      src={photoUrl}
+      alt={artist.name}
+      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      loading="lazy"
+    />
+  </div>
+  <div class="p-6">
+    <h3 class="font-serif text-xl mb-1 text-text-dark">{artist.name}</h3>
+    <p class="font-sans text-sm font-medium text-primary mb-3 m-0">{artist.type}</p>
+    <p class="text-text-muted text-sm leading-relaxed line-clamp-3">{artist.bio}</p>
+    {artist.website && (
+      <a
+        href={artist.website}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block mt-4 font-sans text-xs font-semibold tracking-wider uppercase text-primary hover:text-primary-dark no-underline border-b border-primary hover:border-primary-dark pb-0.5 transition-colors"
+      >
+        View Portfolio →
+      </a>
+    )}
+  </div>
+</article>
