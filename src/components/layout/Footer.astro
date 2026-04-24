@@ -1,0 +1,84 @@
+---
+const year = new Date().getFullYear();
+
+const QUICK_LINKS = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/events', label: 'Events' },
+  { href: '/artists', label: 'Artists' },
+];
+
+const PROGRAM_LINKS = [
+  { href: '/scholarships', label: 'Scholarships' },
+  { href: '/donate', label: 'Support Us' },
+  { href: import.meta.env.FORM_REGISTER_URL || '#', label: 'Artist Registration', external: true },
+  { href: import.meta.env.FORM_CONTACT_URL || '#', label: 'Contact Us', external: true },
+];
+---
+
+<footer class="bg-[#1a1a1a] text-white pt-16 pb-8">
+  <div class="container">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+
+      <div class="lg:col-span-2">
+        <img
+          src="/Logos/ACLA_Logo_White.png"
+          alt="ACLA Logo"
+          class="h-12 w-auto mb-6"
+          width="96"
+          height="48"
+        />
+        <p class="text-white/70 text-sm leading-relaxed max-w-sm m-0">
+          Empowering Latino arts and culture in the Texas Panhandle through scholarships, performances, and community engagement.
+        </p>
+        <p class="text-white/40 text-sm mt-4 font-serif italic m-0">
+          "Enhancing Our World Through Arts and Education"
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-6">
+          Navigate
+        </h4>
+        <ul class="flex flex-col gap-3 list-none p-0 m-0">
+          {QUICK_LINKS.map(link => (
+            <li>
+              <a href={link.href} class="text-white/60 hover:text-white text-sm no-underline transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-6">
+          Programs
+        </h4>
+        <ul class="flex flex-col gap-3 list-none p-0 m-0">
+          {PROGRAM_LINKS.map(link => (
+            <li>
+              <a
+                href={link.href}
+                class="text-white/60 hover:text-white text-sm no-underline transition-colors"
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-white/30 text-xs m-0">
+        &copy; {year} Amarillo Council for the Latino Arts. All rights reserved.
+      </p>
+      <p class="text-white/20 text-xs m-0">
+        501(c)(3) Nonprofit · Amarillo, Texas
+      </p>
+    </div>
+  </div>
+</footer>
