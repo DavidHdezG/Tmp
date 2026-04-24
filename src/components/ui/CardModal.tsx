@@ -96,6 +96,10 @@ export default function CardModal() {
   );
 }
 
+function normalizeUrl(url: string): string {
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
+
 function ArtistContent({ data }: { data: ArtistData }) {
   return (
     <>
@@ -115,7 +119,7 @@ function ArtistContent({ data }: { data: ArtistData }) {
         <p className="text-[#6b6b6b] leading-relaxed whitespace-pre-line">{data.bio}</p>
         {data.website && (
           <a
-            href={data.website}
+            href={normalizeUrl(data.website)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 border border-[#ff8c3a] font-sans text-xs font-semibold tracking-widest uppercase text-[#ff8c3a] hover:bg-[#ff8c3a] hover:text-white no-underline transition-colors duration-200"
