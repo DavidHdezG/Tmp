@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@import './typography.css';
+
+:root {
+  --color-primary: #ff8c3a;
+  --color-primary-dark: #e67e2f;
+  --color-coral: #ff6b54;
+  --color-bg: #faf7f2;
+  --color-dark: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-border: #f0ebe5;
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Bricolage Grotesque', system-ui, sans-serif;
+
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 300ms ease-in-out;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-dark);
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: white;
+  }
+}
+
+@layer components {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .section {
+    padding: 5rem 0;
+  }
+
+  .section--dark {
+    background-color: var(--color-dark);
+    color: white;
+  }
+
+  .section--orange {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  /* Button base */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;      /* ui-ux-pro-max: touch target minimum 44×44px */
+    min-width: 44px;
+    padding: 0.75rem 2rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    line-height: 1;
+  }
+
+  /* gsap-performance: will-change hints for animated elements */
+  .hero-title,
+  .hero-subtitle,
+  .hero-cta,
+  .event-card,
+  .artist-card,
+  .about-block,
+  .stat-block,
+  .program-block,
+  .scholarship-card,
+  .step-item,
+  .deadline-item,
+  .impact-item,
+  .tier-item {
+    will-change: transform;
+  }
+
+  .btn--primary {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+
+  .btn--primary:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: white;
+  }
+
+  .btn--outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .btn--outline:hover {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .btn--white {
+    background-color: white;
+    color: var(--color-dark);
+    border-color: white;
+  }
+
+  .btn--white:hover {
+    background-color: var(--color-bg);
+    color: var(--color-dark);
+  }
+}
