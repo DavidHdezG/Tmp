@@ -105,7 +105,7 @@ function ArtistContent({ data }: { data: ArtistData }) {
     <>
       {data.photo && (
         <div className="aspect-video overflow-hidden">
-          <img src={data.photo} alt={data.name} className="w-full h-full object-cover" />
+          <img src={data.photo} alt={`${data.name}, ${data.artistType} — ACLA Artist Showcase`} className="w-full h-full object-cover" />
         </div>
       )}
       <div className="p-8 sm:p-10">
@@ -141,7 +141,7 @@ function EventContent({ data }: { data: EventData }) {
     <>
       {data.image && (
         <div className="aspect-video overflow-hidden">
-          <img src={data.image} alt={data.title} className="w-full h-full object-cover" />
+          <img src={data.image} alt={`${data.title} at ${data.location} — ACLA Event`} className="w-full h-full object-cover" />
         </div>
       )}
       <div className="p-8 sm:p-10">
