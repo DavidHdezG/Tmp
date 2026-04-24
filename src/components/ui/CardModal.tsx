@@ -45,14 +45,18 @@ export default function CardModal() {
   // Animate in when data arrives; lock scroll + Escape
   useEffect(() => {
     if (!data) return;
+    // Compensate scrollbar width before hiding to prevent layout shift
+    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = `${scrollbarW}px`;
     document.body.style.overflow = 'hidden';
-    gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3,  ease: 'power1.out' });
-    gsap.fromTo(panelRef.current,   { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' });
+    gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power1.out' });
+    gsap.fromTo(panelRef.current,   { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.32, ease: 'power2.out' });
 
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
     window.addEventListener('keydown', onKey);
     return () => {
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
       window.removeEventListener('keydown', onKey);
     };
   }, [data, close]);
@@ -63,14 +67,14 @@ export default function CardModal() {
     <div
       ref={overlayRef}
       style={{ opacity: 0 }}
-      className="fixed inset-0 z-200 flex items-end sm:items-center justify-center sm:p-6 bg-[#1a1a1a]/70 backdrop-blur-sm"
+      className="fixed inset-0 z-200 flex items-end sm:items-center justify-center sm:p-6 bg-[#1a1a1a]/75"
       onClick={close}
       role="dialog"
       aria-modal="true"
     >
       <div
         ref={panelRef}
-        style={{ opacity: 0 }}
+        style={{ opacity: 0, willChange: 'transform, opacity' }}
         className="relative bg-[#faf7f2] w-full sm:max-w-2xl max-h-[92vh] sm:max-h-[88vh] overflow-y-auto shadow-2xl border-t-4 border-t-primary"
         onClick={e => e.stopPropagation()}
       >
