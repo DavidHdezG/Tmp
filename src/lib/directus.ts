@@ -36,7 +36,8 @@ export async function getPublishedArtists(): Promise<Artist[]> {
 }
 
 export function getAssetUrl(fileId: string, params?: { width?: number; height?: number; fit?: string }): string {
-  const base = `${import.meta.env.DIRECTUS_URL}/assets/${fileId}`;
+  // PUBLIC_DIRECTUS_URL: browser-accessible URL (never the internal Docker hostname)
+  const base = `${import.meta.env.PUBLIC_DIRECTUS_URL}/assets/${fileId}`;
   if (!params) return base;
   const qs = new URLSearchParams();
   if (params.width) qs.set('width', String(params.width));
