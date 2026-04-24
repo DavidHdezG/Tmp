@@ -21,13 +21,22 @@ const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
   <!-- HERO -->
   <section class="relative min-h-[92vh] flex items-end overflow-hidden bg-[#1a1a1a]">
     <div class="absolute inset-0 z-0">
+      <!--
+        No autoplay + no source in HTML — poster image (background.jpg) serves as LCP.
+        Video src is injected after window.load so it never blocks critical rendering.
+      -->
       <video
-        autoplay muted loop playsinline
+        id="hero-video"
+        muted loop playsinline
         class="w-full h-full object-cover opacity-35"
         poster="/background.jpg"
-      >
-        <source src="/acla-event.mp4" type="video/mp4" />
-      </video>
+      ></video>
+      <script>
+        window.addEventListener('load', () => {
+          const v = document.getElementById('hero-video') as HTMLVideoElement | null;
+          if (v) { v.src = '/acla-event.mp4'; v.play().catch(() => {}); }
+        });
+      </script>
     </div>
     <!-- Orange vertical accent -->
     <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary z-10"></div>
