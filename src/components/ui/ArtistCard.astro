@@ -13,7 +13,19 @@ const photoUrl = artist.photo
   : 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop';
 ---
 
-<article class="artist-card bg-white border border-border overflow-hidden group">
+<article
+  class="artist-card bg-white border border-border overflow-hidden group cursor-pointer"
+  role="button"
+  tabindex="0"
+  data-artist-modal={JSON.stringify({
+    type: 'artist',
+    name: artist.name,
+    artistType: artist.type,
+    bio: artist.bio,
+    photo: photoUrl,
+    website: artist.website,
+  })}
+>
   <div class="overflow-hidden aspect-square">
     <img
       src={photoUrl}
@@ -27,14 +39,20 @@ const photoUrl = artist.photo
     <p class="font-sans text-sm font-medium text-primary mb-3 m-0">{artist.type}</p>
     <p class="text-text-muted text-sm leading-relaxed line-clamp-3">{artist.bio}</p>
     {artist.website && (
-      <a
-        href={artist.website}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block mt-4 font-sans text-xs font-semibold tracking-wider uppercase text-primary hover:text-primary-dark no-underline border-b border-primary hover:border-primary-dark pb-0.5 transition-colors"
-      >
+      <span class="inline-block mt-4 font-sans text-xs font-semibold tracking-wider uppercase text-primary border-b border-primary pb-0.5">
         View Portfolio →
-      </a>
+      </span>
     )}
   </div>
 </article>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-artist-modal]').forEach(el => {
+    const open = () => {
+      const detail = JSON.parse(el.dataset.artistModal!);
+      window.dispatchEvent(new CustomEvent('open-card-modal', { detail }));
+    };
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+</script>

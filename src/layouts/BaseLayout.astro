@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import PageTransition from '../components/gsap/PageTransition.astro';
+import CardModal from '../components/ui/CardModal';
 
 interface Props {
   title: string;
@@ -112,5 +113,6 @@ const orgSchema = JSON.stringify({
       <slot />
     </main>
     <Footer />
+    <CardModal client:load />
   </body>
 </html>

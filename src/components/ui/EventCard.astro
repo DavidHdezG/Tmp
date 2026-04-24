@@ -20,7 +20,20 @@ const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
 });
 ---
 
-<article class="event-card bg-white border border-border overflow-hidden group">
+<article
+  class="event-card bg-white border border-border overflow-hidden group cursor-pointer"
+  role="button"
+  tabindex="0"
+  data-event-modal={JSON.stringify({
+    type: 'event',
+    title: event.title,
+    date: event.date,
+    time: event.time,
+    location: event.location,
+    description: event.description,
+    image: imageUrl,
+  })}
+>
   <div class="overflow-hidden aspect-5/3">
     <img
       src={imageUrl}
@@ -43,3 +56,14 @@ const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
     <p class="text-text-muted text-sm leading-relaxed line-clamp-2 m-0">{event.description}</p>
   </div>
 </article>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-event-modal]').forEach(el => {
+    const open = () => {
+      const detail = JSON.parse(el.dataset.eventModal!);
+      window.dispatchEvent(new CustomEvent('open-card-modal', { detail }));
+    };
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+</script>
