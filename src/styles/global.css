@@ -89,7 +89,8 @@
     line-height: 1;
   }
 
-  /* gsap-performance: will-change hints for animated elements */
+  /* Pre-hide GSAP-animated elements before the deferred script runs — prevents flash.
+     GSAP animates them back to visible. Fallbacks below handle reduced-motion + noscript. */
   .hero-title,
   .hero-subtitle,
   .hero-cta,
@@ -104,6 +105,27 @@
   .impact-item,
   .tier-item {
     will-change: transform;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-title,
+    .hero-subtitle,
+    .hero-cta,
+    .event-card,
+    .artist-card,
+    .about-block,
+    .stat-block,
+    .program-block,
+    .scholarship-card,
+    .step-item,
+    .deadline-item,
+    .impact-item,
+    .tier-item {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
   }
 
   .btn--primary {

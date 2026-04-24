@@ -98,7 +98,17 @@ const orgSchema = JSON.stringify({
       #main-content { opacity: 0; }
       @media (prefers-reduced-motion: reduce) { #main-content { opacity: 1 !important; } }
     </style>
-    <noscript><style>#main-content { opacity: 1 !important; }</style></noscript>
+    <noscript><style>
+      #main-content { opacity: 1 !important; }
+      .hero-title, .hero-subtitle, .hero-cta,
+      .event-card, .artist-card,
+      .about-block, .stat-block, .program-block,
+      .scholarship-card, .step-item, .deadline-item,
+      .impact-item, .tier-item {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+    </style></noscript>
   </head>
   <body>
     <a
