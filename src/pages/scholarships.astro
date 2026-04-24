@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScrollReveal from '../components/gsap/ScrollReveal.astro';
+
+const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
+
+const PROGRAMS = [
+  { title: 'Emerging Artist Scholarship', amount: 'Up to $5,000', eligibility: 'Artists with 0–5 years of professional experience', description: 'Supporting early-career artists as they develop their practice.' },
+  { title: 'Professional Development Grant', amount: 'Up to $10,000', eligibility: 'Established artists seeking advanced training or project support', description: 'For artists pursuing advanced education, master classes, or special projects.' },
+  { title: 'Youth Aspiring Artist Award', amount: 'Up to $3,000', eligibility: 'Students ages 14–22 pursuing artistic education', description: 'Supporting the next generation of Latino artists.' },
+  { title: 'Community Arts Initiative Grant', amount: 'Up to $7,500', eligibility: 'Artists developing community-based art projects', description: 'For projects that engage and benefit the broader community.' },
+];
+
+const STEPS = [
+  { n: '01', title: 'Review Eligibility', body: 'Check the specific requirements for each scholarship program to ensure you meet the eligibility criteria.' },
+  { n: '02', title: 'Prepare Your Materials', body: 'Gather: artist bio, resume, portfolio samples (images, audio, or video), 2 letters of recommendation, and a 250–500 word artistic goals statement.' },
+  { n: '03', title: 'Submit Application', body: 'Complete the online application form with all required information before the deadline.' },
+  { n: '04', title: 'Review & Notification', body: 'Our selection committee reviews applications and notifies recipients within 30 days of the deadline.' },
+];
+
+const DEADLINES = [
+  { round: 'Spring Round', deadline: 'March 31', notification: 'Notification by May 15' },
+  { round: 'Summer Round', deadline: 'June 30', notification: 'Notification by August 15' },
+  { round: 'Fall Round', deadline: 'September 30', notification: 'Notification by November 15' },
+];
+---
+
+<BaseLayout
+  title="Scholarships & Grants"
+  description="ACLA offers scholarships and grants for Latino artists in the Texas Panhandle — from emerging artists to established professionals."
+>
+
+  <section class="min-h-[40vh] bg-[#1a1a1a] flex items-end relative overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="/background.jpg" alt="" class="w-full h-full object-cover opacity-20" aria-hidden="true" />
+    </div>
+    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+    <div class="container relative z-10 pb-16 pt-28">
+      <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Financial Support</p>
+      <h1 class="font-serif text-white">Artist Scholarships & Grants</h1>
+      <p class="font-sans text-white/70 text-xl mt-4">Supporting Your Artistic Journey</p>
+    </div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="section">
+    <div class="container">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Our Commitment</p>
+          <h2 class="font-serif mb-6">Our Scholarship Programs</h2>
+          <p class="text-text-muted leading-relaxed mb-4">
+            ACLA is committed to investing in the development and success of Latino and non-Latino artists in the Texas Panhandle. We offer programs designed to support artists at different career stages.
+          </p>
+          <p class="text-text-muted leading-relaxed">
+            Whether you're just starting out or looking to advance your artistic practice, we have programs to help you achieve your goals.
+          </p>
+        </div>
+        <div class="bg-primary p-10 text-center">
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-white/70 mb-4">Total Awarded</p>
+          <p class="font-serif text-7xl font-bold text-white mb-2 m-0">$100K+</p>
+          <p class="text-white/70 text-sm m-0">Helping artists succeed across the Texas Panhandle</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section class="section bg-[#f5f0ea]">
+    <div class="container">
+      <div class="text-center mb-12">
+        <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Programs</p>
+        <h2 class="font-serif">Available Programs</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        {PROGRAMS.map(p => (
+          <div class="scholarship-card bg-white border border-border p-8">
+            <h3 class="font-serif text-xl mb-2">{p.title}</h3>
+            <p class="font-sans font-bold text-primary text-lg mb-4 m-0">{p.amount}</p>
+            <p class="text-text-muted text-sm mb-2 m-0">
+              <span class="font-semibold text-text-dark">Eligibility:</span> {p.eligibility}
+            </p>
+            <p class="text-text-muted text-sm mt-3 m-0">{p.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ScrollReveal selector=".scholarship-card" from="bottom" stagger={0.1} />
+
+  <!-- HOW TO APPLY -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center mb-12">
+        <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Process</p>
+        <h2 class="font-serif">How to Apply</h2>
+      </div>
+      <div class="max-w-3xl mx-auto grid gap-10">
+        {STEPS.map(s => (
+          <div class="step-item flex gap-8 items-start">
+            <span class="font-serif text-6xl font-bold text-primary/20 shrink-0 leading-none">{s.n}</span>
+            <div>
+              <h3 class="font-serif text-xl mb-2">{s.title}</h3>
+              <p class="text-text-muted m-0">{s.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ScrollReveal selector=".step-item" from="left" stagger={0.12} />
+
+  <!-- ELIGIBILITY -->
+  <section class="section bg-[#f5f0ea]">
+    <div class="container">
+      <div class="text-center mb-12">
+        <h2 class="font-serif">General Eligibility</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-12 max-w-3xl mx-auto">
+        <div>
+          <h4 class="font-sans font-semibold uppercase tracking-widest text-xs text-primary mb-6">Who Can Apply</h4>
+          <ul class="space-y-3 list-none p-0">
+            {['Latino and non-Latino artists', 'Texas Panhandle residents or adjacent areas', 'Professionals or emerging artists', 'No age limit (except Youth Award)', 'All artistic disciplines welcome'].map(i => (
+              <li class="flex gap-3 text-text-muted text-sm">
+                <span class="text-primary font-bold shrink-0">—</span>{i}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-sans font-semibold uppercase tracking-widest text-xs text-primary mb-6">Required Materials</h4>
+          <ul class="space-y-3 list-none p-0">
+            {['Completed application form', 'Resume or CV', 'Artist statement (250–500 words)', 'Portfolio samples (up to 5)', 'Letters of recommendation (2)'].map(i => (
+              <li class="flex gap-3 text-text-muted text-sm">
+                <span class="text-primary font-bold shrink-0">—</span>{i}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEADLINES -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center mb-12">
+        <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Timeline</p>
+        <h2 class="font-serif">Application Deadlines</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        {DEADLINES.map(d => (
+          <div class="deadline-item border-t-4 border-primary pt-6">
+            <h4 class="font-serif text-lg mb-2">{d.round}</h4>
+            <p class="font-sans font-bold text-primary text-sm m-0">Deadline: {d.deadline}</p>
+            <p class="text-text-muted text-sm mt-1 m-0">{d.notification}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ScrollReveal selector=".deadline-item" from="bottom" stagger={0.1} />
+
+  <section class="section section--orange text-center">
+    <div class="container">
+      <h2 class="font-serif text-white mb-4">Ready to Apply?</h2>
+      <p class="text-white/80 max-w-xl mx-auto mb-8">
+        Take the next step in your artistic journey. Apply for a scholarship today and let us help you achieve your creative vision.
+      </p>
+      <a href={registerUrl} class="btn btn--white" target="_blank" rel="noopener noreferrer">Submit Application</a>
+    </div>
+  </section>
+
+</BaseLayout>
