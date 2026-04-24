@@ -1,17 +1,161 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroAnimation from '../components/gsap/HeroAnimation.astro';
+import ScrollReveal from '../components/gsap/ScrollReveal.astro';
+import EventCard from '../components/ui/EventCard.astro';
+import ArtistCard from '../components/ui/ArtistCard.astro';
+import { getPublishedEvents, getPublishedArtists } from '../lib/directus';
 
+const events = await getPublishedEvents();
+const artists = await getPublishedArtists();
+const featuredEvents = events.slice(0, 3);
+const featuredArtists = artists.slice(0, 3);
+const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Home"
+  description="The Amarillo Council for the Latino Arts supports Latino arts and cultural heritage in the Texas Panhandle through scholarships, performances, and community events."
+>
+
+  <!-- HERO -->
+  <section class="relative min-h-[92vh] flex items-end overflow-hidden bg-[#1a1a1a]">
+    <div class="absolute inset-0 z-0">
+      <video
+        autoplay muted loop playsinline
+        class="w-full h-full object-cover opacity-35"
+        poster="/background.jpg"
+      >
+        <source src="/acla-event.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <!-- Orange vertical accent -->
+    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary z-10"></div>
+
+    <div class="container relative z-10 pb-24 pt-32">
+      <p class="hero-subtitle font-sans text-xs font-semibold tracking-[0.3em] uppercase text-primary mb-6">
+        Amarillo, Texas · Texas Panhandle
+      </p>
+      <h1 class="hero-title font-serif text-white max-w-3xl leading-[1.05] mb-8">
+        Empowering<br />
+        <em class="not-italic text-primary">Latino Arts</em><br />
+        in the Texas Panhandle
+      </h1>
+      <p class="hero-subtitle font-sans text-white/70 text-lg max-w-xl mb-10">
+        Supporting artists, performances, and cultural expression in Amarillo and beyond.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="/donate" class="hero-cta btn btn--primary">Donate Now</a>
+        <a href="/scholarships" class="hero-cta btn btn--white">Apply for Scholarship</a>
+        <a
+          href={registerUrl}
+          class="hero-cta btn btn--outline"
+          style="border-color:white;color:white;"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Register as Artist
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <HeroAnimation titleSelector=".hero-title" subtitleSelector=".hero-subtitle" ctaSelector=".hero-cta" />
+
+  <!-- ABOUT PREVIEW -->
+  <section class="section">
+    <div class="container">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">About ACLA</p>
+          <h2 class="font-serif mb-6">The Amarillo Council for the Latino Arts</h2>
+          <p class="text-text-muted leading-relaxed mb-4">
+            ACLA is dedicated to preserving, promoting, and celebrating Latino arts and cultural heritage in the Texas Panhandle.
+          </p>
+          <p class="text-text-muted leading-relaxed mb-4">
+            We believe that art has the power to transform communities, build bridges, and create opportunities for artists to thrive and share their talents with the world.
+          </p>
+          <p class="text-text-muted leading-relaxed mb-8">
+            Through scholarships, performances, exhibitions, and community programs, we support Latino and non-Latino artists committed to enriching our region's cultural landscape.
+          </p>
+          <a href="/about" class="btn btn--primary">Learn More</a>
+        </div>
+
+        <div class="bg-primary p-12">
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-white/70 mb-4">Our Mission</p>
+          <h3 class="font-serif text-white text-3xl leading-tight mb-8">
+            Enhancing Our World Through Arts and Education
+          </h3>
+          <div class="border-t border-white/20 pt-8 grid grid-cols-3 gap-4 text-center">
+            {[
+              { n: '500+', l: 'Artists Supported' },
+              { n: '$100K+', l: 'Scholarships' },
+              { n: '50+', l: 'Annual Events' },
+            ].map(s => (
+              <div>
+                <p class="font-serif text-4xl font-bold text-white m-0">{s.n}</p>
+                <p class="font-sans text-xs text-white/60 uppercase tracking-wider mt-1 m-0">{s.l}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ScrollReveal selector=".section:nth-of-type(1) h2" from="bottom" />
+
+  <!-- FEATURED EVENTS -->
+  {featuredEvents.length > 0 && (
+    <section class="section bg-[#1a1a1a]">
+      <div class="container">
+        <div class="flex items-end justify-between mb-12">
+          <div>
+            <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-3">Calendar</p>
+            <h2 class="font-serif text-white m-0">Upcoming Events</h2>
+          </div>
+          <a href="/events" class="btn btn--outline hidden sm:inline-block" style="border-color:white;color:white;">
+            View All →
+          </a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredEvents.map(event => <EventCard event={event} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ScrollReveal selector=".event-card" from="bottom" stagger={0.12} />
+
+  <!-- FEATURED ARTISTS -->
+  {featuredArtists.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="flex items-end justify-between mb-12">
+          <div>
+            <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-3">Community</p>
+            <h2 class="font-serif m-0">Featured Artists</h2>
+          </div>
+          <a href="/artists" class="btn btn--outline hidden sm:inline-block">View All →</a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredArtists.map(artist => <ArtistCard artist={artist} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ScrollReveal selector=".artist-card" from="bottom" stagger={0.12} />
+
+  <!-- DONATE CTA -->
+  <section class="section section--orange text-center">
+    <div class="container">
+      <h2 class="font-serif text-white mb-4">Make an Impact Today</h2>
+      <p class="text-white/80 max-w-xl mx-auto mb-8 text-lg">
+        Your donation directly supports artist scholarships, cultural programming, and community events that celebrate Latino arts in the Texas Panhandle.
+      </p>
+      <a href="/donate" class="btn btn--white">Donate Now</a>
+    </div>
+  </section>
+
+</BaseLayout>
