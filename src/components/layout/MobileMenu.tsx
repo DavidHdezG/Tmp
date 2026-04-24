@@ -31,7 +31,7 @@ export default function MobileMenu({ registerUrl }: Props) {
 
       {open && (
         <nav
-          className="absolute left-0 top-full w-full bg-[#faf7f2] border-t border-[#f0ebe5] px-6 py-8 flex flex-col gap-6 lg:hidden shadow-lg"
+          className="fixed top-20 left-0 right-0 bg-[#faf7f2] border-t border-[#f0ebe5] px-6 py-8 flex flex-col gap-6 lg:hidden shadow-lg z-50"
           aria-label="Mobile navigation"
         >
           {NAV_LINKS.map(link => (
