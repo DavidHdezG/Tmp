@@ -1,0 +1,33 @@
+---
+import type { BoardMember } from '../../lib/types';
+import { getAssetUrl } from '../../lib/directus';
+
+interface Props { member: BoardMember }
+const { member } = Astro.props;
+
+const photoUrl = member.photo
+  ? getAssetUrl(
+      typeof member.photo === 'string' ? member.photo : member.photo.id,
+      { width: 300, height: 300, fit: 'cover' }
+    )
+  : null;
+---
+
+<div class="board-member-card flex flex-col items-center text-center">
+  <div class="w-24 h-24 overflow-hidden mb-4 border-2 border-primary/20">
+    {photoUrl
+      ? <img
+          src={photoUrl}
+          alt={`${member.name} — ACLA Board Member`}
+          width="96"
+          height="96"
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+      : <div class="w-full h-full bg-[#f0ebe5] flex items-center justify-center">
+          <span class="font-serif text-2xl text-primary/40">{member.name.charAt(0)}</span>
+        </div>
+    }
+  </div>
+  <p class="font-serif text-sm font-semibold text-[#1a1a1a] leading-tight m-0">{member.name}</p>
+</div>

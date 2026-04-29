@@ -4,10 +4,12 @@ import HeroAnimation from '../components/gsap/HeroAnimation.astro';
 import ScrollReveal from '../components/gsap/ScrollReveal.astro';
 import EventCard from '../components/ui/EventCard.astro';
 import ArtistCard from '../components/ui/ArtistCard.astro';
-import { getPublishedEvents, getPublishedArtists } from '../lib/directus';
+import BoardMemberCard from '../components/ui/BoardMemberCard.astro';
+import { getPublishedEvents, getPublishedArtists, getPublishedBoardMembers } from '../lib/directus';
 
 const events = await getPublishedEvents();
 const artists = await getPublishedArtists();
+const boardMembers = await getPublishedBoardMembers();
 const featuredEvents = events.slice(0, 3);
 const featuredArtists = artists.slice(0, 3);
 const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
@@ -155,6 +157,23 @@ const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
   )}
 
   <ScrollReveal selector=".artist-card" from="bottom" stagger={0.12} />
+
+  <!-- DIRECTIVE BOARD -->
+  {boardMembers.length > 0 && (
+    <section class="section bg-[#f5f0ea]">
+      <div class="container">
+        <div class="text-center mb-12">
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Leadership</p>
+          <h2 class="font-serif">Board of Directors</h2>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 justify-items-center">
+          {boardMembers.map(member => <BoardMemberCard member={member} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ScrollReveal selector=".board-member-card" from="bottom" stagger={0.07} />
 
   <!-- DONATE CTA -->
   <section class="section section--orange text-center">

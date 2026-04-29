@@ -24,3 +24,11 @@ export interface Artist {
   photo?: string | DirectusFile;
   website?: string;
 }
+
+export interface BoardMember {
+  id: string;
+  status: 'published' | 'draft' | 'archived';
+  name: string;
+  photo?: string | DirectusFile;
+  sort?: number;
+}

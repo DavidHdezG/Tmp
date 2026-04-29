@@ -1,5 +1,5 @@
 import { createDirectus, rest, staticToken, readItems } from '@directus/sdk';
-import type { Event, Artist } from './types';
+import type { Event, Artist, BoardMember } from './types';
 
 const client = createDirectus(import.meta.env.DIRECTUS_URL)
   .with(staticToken(import.meta.env.DIRECTUS_TOKEN))
@@ -31,6 +31,21 @@ export async function getPublishedArtists(): Promise<Artist[]> {
     ) as Artist[];
   } catch (err) {
     console.error('[Directus] getPublishedArtists failed:', err);
+    return [];
+  }
+}
+
+export async function getPublishedBoardMembers(): Promise<BoardMember[]> {
+  try {
+    return await client.request(
+      readItems('board_members', {
+        filter: { status: { _eq: 'published' } },
+        sort: ['sort', 'name'],
+        limit: 100,
+      })
+    ) as BoardMember[];
+  } catch (err) {
+    console.error('[Directus] getPublishedBoardMembers failed:', err);
     return [];
   }
 }
