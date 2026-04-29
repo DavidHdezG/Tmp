@@ -8,26 +8,42 @@ const { member } = Astro.props;
 const photoUrl = member.photo
   ? getAssetUrl(
       typeof member.photo === 'string' ? member.photo : member.photo.id,
-      { width: 300, height: 300, fit: 'cover' }
+      { width: 400, height: 520, fit: 'cover' }
     )
   : null;
 ---
 
-<div class="board-member-card flex flex-col items-center text-center">
-  <div class="w-24 h-24 overflow-hidden mb-4 border-2 border-primary/20">
-    {photoUrl
-      ? <img
-          src={photoUrl}
-          alt={`${member.name} — ACLA Board Member`}
-          width="96"
-          height="96"
-          class="w-full h-full object-cover"
-          loading="lazy"
-        />
-      : <div class="w-full h-full bg-[#f0ebe5] flex items-center justify-center">
-          <span class="font-serif text-2xl text-primary/40">{member.name.charAt(0)}</span>
-        </div>
-    }
+<div class="board-member-card group flex flex-col items-center">
+  <div class="polaroid-frame bg-white shadow-[0_12px_40px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-out group-hover:-translate-y-2 w-full">
+    <!-- Orange top accent -->
+    <div class="h-[3px] bg-primary w-full"></div>
+
+    <!-- Photo area -->
+    <div class="p-2.5 pb-0">
+      <div class="aspect-[3/4] overflow-hidden bg-[#e8e2da]">
+        {photoUrl
+          ? <img
+              src={photoUrl}
+              alt={`${member.name} — ACLA Directive Board`}
+              width="400"
+              height="520"
+              class="w-full h-full object-cover object-top"
+              loading="lazy"
+            />
+          : <div class="w-full h-full flex items-center justify-center bg-[#f0ebe5]">
+              <span class="font-['Cormorant_Garamond',Georgia,serif] text-6xl font-bold text-primary/30">
+                {member.name.charAt(0)}
+              </span>
+            </div>
+        }
+      </div>
+    </div>
+
+    <!-- Name area — polaroid bottom -->
+    <div class="px-3 py-4 text-center">
+      <p class="font-['Cormorant_Garamond',Georgia,serif] text-[#1a1a1a] text-base font-semibold leading-tight m-0">
+        {member.name}
+      </p>
+    </div>
   </div>
-  <p class="font-serif text-sm font-semibold text-[#1a1a1a] leading-tight m-0">{member.name}</p>
 </div>
