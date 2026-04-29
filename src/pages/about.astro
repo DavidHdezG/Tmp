@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ScrollReveal from '../components/gsap/ScrollReveal.astro';
+import BoardMemberCard from '../components/ui/BoardMemberCard.astro';
+import { getPublishedBoardMembers } from '../lib/directus';
+
+const boardMembers = await getPublishedBoardMembers();
 
 const registerUrl = import.meta.env.FORM_REGISTER_URL || '#';
 
@@ -144,6 +148,23 @@ const PROGRAMS = [
   </section>
 
   <ScrollReveal selector=".program-block" from="bottom" stagger={0.1} />
+
+  <!-- DIRECTIVE BOARD -->
+  {boardMembers.length > 0 && (
+    <section class="section bg-[#1a1a1a]">
+      <div class="container">
+        <div class="text-center mb-14">
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Leadership</p>
+          <h2 class="font-serif text-white">Directive Board</h2>
+        </div>
+        <div class="flex flex-wrap justify-center gap-6 sm:gap-8">
+          {boardMembers.map(member => <BoardMemberCard member={member} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ScrollReveal selector=".board-member-card" from="bottom" stagger={0.07} />
 
   <section class="section section--dark text-center">
     <div class="container">
