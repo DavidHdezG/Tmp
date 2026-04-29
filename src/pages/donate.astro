@@ -9,13 +9,6 @@ const IMPACT = [
   { title: 'Community Engagement', description: 'Enable workshops, educational programs, and outreach that connect communities with art.' },
 ];
 
-const TIERS = [
-  { amount: '$25', label: 'Supports one scholarship application review' },
-  { amount: '$50', label: 'Funds artist promotion and materials' },
-  { amount: '$100', label: 'Sponsors one artist for a performance' },
-  { amount: '$250', label: 'Supports a full scholarship for an artist' },
-  { amount: '$500', label: 'Funds an entire community event' },
-];
 ---
 
 <BaseLayout
@@ -53,26 +46,6 @@ const TIERS = [
   </section>
 
   <ScrollReveal selector=".impact-item" from="left" stagger={0.1} />
-
-  <!-- TIERS -->
-  <section class="section bg-[#f5f0ea]">
-    <div class="container">
-      <div class="text-center mb-12">
-        <p class="font-sans text-xs font-semibold tracking-widest uppercase text-primary mb-4">Choose Your Level</p>
-        <h2 class="font-serif">Donation Options</h2>
-      </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {TIERS.map(t => (
-          <div class="tier-item bg-white border border-border p-6 text-center hover:border-primary transition-colors">
-            <p class="font-serif text-3xl font-bold text-primary mb-2 m-0">{t.amount}</p>
-            <p class="text-text-muted text-xs leading-relaxed m-0">{t.label}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <ScrollReveal selector=".tier-item" from="bottom" stagger={0.07} />
 
   <!-- EMBED -->
   <section class="section">

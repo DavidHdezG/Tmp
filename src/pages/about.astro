@@ -106,13 +106,13 @@ const PROGRAMS = [
   <!-- IMPACT STATS -->
   <section class="section bg-primary">
     <div class="container">
-      <div class="grid grid-cols-3 gap-8 text-center">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center divide-y sm:divide-y-0 divide-white/20">
         {[
           { n: '500+', l: 'Artists Supported', sub: 'Through scholarships, grants, and performance opportunities' },
           { n: '$100K+', l: 'Scholarships Awarded', sub: 'Invested directly in artist development and education' },
           { n: '50+', l: 'Annual Events', sub: 'Festivals, exhibitions, performances, and workshops' },
         ].map(s => (
-          <div class="stat-block">
+          <div class="stat-block pt-6 sm:pt-0 first:pt-0">
             <p class="font-serif text-5xl font-bold text-white mb-2 m-0">{s.n}</p>
             <p class="font-sans font-semibold text-white text-xs uppercase tracking-widest mb-2 m-0">{s.l}</p>
             <p class="text-white/60 text-xs m-0">{s.sub}</p>
